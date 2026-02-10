@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catching Butterflies Game</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+        #shop { position: absolute; top: 10px; left: 10px; background: rgba(255, 255, 255, 0.8); padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div id="shop">
+        <h2>Shop</h2>
+        <p id="currency">Currency: 0</p>
+        <button onclick="buyUpgrade()">Buy Upgrade</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer;
+        let butterflies = [];
+        let score = 0;
+        let currency = 0;
+        let level = 1;
+        let upgrades = 0;
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            createButterflies();
+            camera.position.z = 5;
+
+            document.addEventListener('keydown', onKeyPress);
+            animate();
+        }
+
+        function createButterflies() {
+            for (let i = 0; i < 5 * level; i++) {
+                const geometry = new THREE.CircleGeometry(0.1, 32);
+                const material = new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff });
+                const butterfly = new THREE.Mesh(geometry, material);
+                butterfly.position.set(Math.random() * 10 - 5, Math.random() * 10 - 5, 0);
+                butterflies.push(butterfly);
+                scene.add(butterfly);
+            }
+        }
+
+        function onKeyPress(event) {
+            if (event.key === 'w') {
+                camera.position.y += 0.1;
+            }
+            if (event.key === 's') {
+                camera.position.y -= 0.1;
+            }
+            if (event.key === 'a') {
+                camera.position.x -= 0.1;
+            }
+            if (event.key === 'd') {
+                camera.position.x += 0.1;
+            }  
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+            detectCollisions();
+        }
+
+        function detectCollisions() {
+            butterflies.forEach((butterfly, index) => {
+                const distance = camera.position.distanceTo(butterfly.position);
+                if (distance < 0.5) {
+                    score++;
+                    currency += 10;
+                    document.getElementById('currency').innerText = 'Currency: ' + currency;
+                    scene.remove(butterfly);
+                    butterflies.splice(index, 1);
+                    if (butterflies.length === 0) {
+                        level++; 
+                        createButterflies();
+                    }
+                }
+            });
+        }
+
+        function buyUpgrade() {
+            if (currency >= 50) {
+                upgrades++;
+                currency -= 50;
+                resizeButterflies();
+                document.getElementById('currency').innerText = 'Currency: ' + currency;
+            }
+        }
+
+        function resizeButterflies() {
+            butterflies.forEach(butterfly => {
+                butterfly.scale.set(1 + upgrades * 0.1, 1 + upgrades * 0.1, 1);
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>
