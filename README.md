@@ -44,7 +44,7 @@ Explore the underground world and catch various creatures!
 - `E` - Open/Close Store
 - `ENTER` - Select menu options
 
-**Gamepad (Nintendo Switch Pro Controller):**
+**Gamepad (Nintendo Switch Pro Controller):** (feature coming soon)
 - `Left Stick` - Move player
 - `Right Stick` - Rotate camera
 - `A Button` - Catch creatures / Select
