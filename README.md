@@ -2,7 +2,10 @@
 
 A fun 3D browser-based game where you catch butterflies, spiders, and underground creatures across three unique levels!
 
+Sneak Peak 
+
 ## 🎮 Game Preview
+![Catching Butterflies](https://github.com/user-attachments/assets/fb425065-0933-4c53-bd67-f54018eaec64)
 
 ### Level 1: Kids Park (Day) ☀️
 Catch 101 colorful butterflies in a bright, sunny park surrounded by trees!
