@@ -546,11 +546,11 @@
 
         let gamepad = null;
         let previousButtonStates = {};
-        let previousDPadState = { up: false, down: false, left: false, right: false }; // FIXED: Added D-Pad state tracking
+        let previousDPadState = { up: false, down: false, left: false, right: false };
         
         let keys = {};
         let previousKeys = {};
-        let lastScrollTime = 0; // FIXED: Added throttle timer
+        let lastScrollTime = 0;
         
         let scene, camera, renderer, player, netGroup;
         let butterflies = [], spiders = [], undergroundCreatures = [];
@@ -634,20 +634,16 @@
             }
         }
 
-        // FIXED: D-Pad input now only triggers once per press
         function getDPadInput() {
             const gp = getGamepad();
             if (!gp) return { up: false, down: false };
 
-            // Get current state
             let upPressed = gp.buttons[12] && gp.buttons[12].pressed;
             let downPressed = gp.buttons[13] && gp.buttons[13].pressed;
             
-            // Check if button was JUST pressed (not held)
             const upJustPressed = upPressed && !previousDPadState.up;
             const downJustPressed = downPressed && !previousDPadState.down;
             
-            // Update previous state
             previousDPadState.up = upPressed;
             previousDPadState.down = downPressed;
 
@@ -659,7 +655,6 @@
 
         function handleMenuNavigation() {
             if (menuState.currentMenu === 'main' || menuState.currentMenu === 'completion') {
-                // Keyboard: Enter or Space
                 if (isKeyPressed('Enter') || isKeyPressed(' ')) {
                     const selectedButton = menuState.menuButtons[menuState.selectedIndex];
                     if (selectedButton) {
@@ -668,7 +663,6 @@
                     }
                 }
                 
-                // Gamepad: A button
                 if (isButtonPressed(1) || isButtonPressed(0)) {
                     const selectedButton = menuState.menuButtons[menuState.selectedIndex];
                     if (selectedButton) {
@@ -697,7 +691,6 @@
                     scrollToSelected();
                 }
                 
-                // FIXED: D-Pad now only triggers once per press
                 if (dpad.up) {
                     menuState.selectedIndex--;
                     if (menuState.selectedIndex < 0) {
@@ -740,10 +733,9 @@
             }
         }
 
-        // FIXED: Added throttle to prevent scroll spam
         function scrollToSelected() {
             const now = Date.now();
-            if (now - lastScrollTime < 100) return; // Throttle to max 10 times per second
+            if (now - lastScrollTime < 100) return;
             lastScrollTime = now;
             
             if (menuState.menuButtons[menuState.selectedIndex]) {
@@ -807,7 +799,6 @@
             document.getElementById('gameCanvas').style.display = 'none';
             document.getElementById('menuPage').style.display = 'flex';
             
-            // Reset game state
             gameState = {
                 level: 1,
                 money: 0,
@@ -822,13 +813,11 @@
                 storeUnlocked: false
             };
             
-            // Reset character purchases
             characterTypes.forEach((char, i) => {
                 if (i === 0) char.purchased = true;
                 else char.purchased = false;
             });
             
-            // Clean up scene
             if (scene) {
                 butterflies.forEach(b => b.remove());
                 butterflies = [];
@@ -845,7 +834,6 @@
                 renderer = null;
             }
             
-            // FIXED: Reset UI displays properly
             document.getElementById('caught').style.display = 'block';
             document.getElementById('caught').textContent = 'Butterflies: 0/101';
             document.getElementById('spiders').style.display = 'none';
@@ -1285,7 +1273,6 @@
         function catchButterfly(b) {
             gameState.money += b.type.value;
             gameState.butterfliesCaught++;
-            showNotification(`${b.type.name} +$${b.type.value}`);
             
             b.remove();
             butterflies = butterflies.filter(x => x !== b);
@@ -1305,7 +1292,6 @@
         function catchSpider(s) {
             gameState.money += 1;
             gameState.spidersCaught++;
-            showNotification("Spider +$1");
             
             s.remove();
             spiders = spiders.filter(x => x !== s);
@@ -1321,7 +1307,6 @@
         function catchUnderground(c) {
             gameState.money += c.type.value;
             gameState.undergroundCaught[c.type.type]++;
-            showNotification(`${c.type.name} +$${c.type.value}`);
             
             c.remove();
             undergroundCreatures = undergroundCreatures.filter(x => x !== c);
@@ -1405,7 +1390,6 @@
             const toolText = gameState.currentNet !== null ? netTiers[gameState.currentNet].name : 'Hands';
             document.getElementById('tool').textContent = `Tool: ${toolText}`;
 
-            // FIXED: Level-specific UI display
             if (gameState.level === 1) {
                 document.getElementById('caught').style.display = 'block';
                 document.getElementById('caught').textContent = `Butterflies: ${gameState.butterfliesCaught}/101`;
@@ -1533,7 +1517,7 @@
             updatePreviousKeys();
         }
 
-            console.log("Calling setupButtons...");
+        console.log("Calling setupButtons...");
         setupButtons();
         
         console.log("Setting up menu state...");
@@ -1547,5 +1531,3 @@
     </script>
 </body>
 </html>
-
-
