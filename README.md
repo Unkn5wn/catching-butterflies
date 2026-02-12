@@ -47,7 +47,7 @@ Explore the underground world and catch various creatures!
 - `ENTER` - Select menu options
 
 **Gamepad (Nintendo Switch Pro Controller):** 
-Check out: 
+Check out: https://github.com/Unkn5wn/catching-butterflies--Nintendo-Switch-Controller-
 
 ## 🚀 Getting Started
 
