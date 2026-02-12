@@ -46,12 +46,8 @@ Explore the underground world and catch various creatures!
 - `E` - Open/Close Store
 - `ENTER` - Select menu options
 
-**Gamepad (Nintendo Switch Pro Controller):** (feature coming soon)
-- `Left Stick` - Move player
-- `Right Stick` - Rotate camera
-- `A Button` - Catch creatures / Select
-- `+` (Plus) - Open Store
-- `D-Pad Up/Down` - Navigate store menu
+**Gamepad (Nintendo Switch Pro Controller):** 
+Check out: 
 
 ## 🚀 Getting Started
 
@@ -59,11 +55,8 @@ Explore the underground world and catch various creatures!
 👉 **[Play Now on GitHub Pages](https://unkn5wn.github.io/catching-butterflies/)**
 
 ### Play Locally
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/Unkn5wn/catching-butterflies.git
-   ```
-2. Open `index.html` in your web browser
+1. Copy `index.html` in notepad
+2. Save the file as index.html save it as allfie
 3. Start playing!
 
 ## 🛠️ Technical Details
