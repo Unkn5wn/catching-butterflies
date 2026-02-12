@@ -17,7 +17,7 @@
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
 
-    #menuPage {
+    #characterSelectionPage {
         position: fixed;
         top: 0;
         left: 0;
@@ -25,6 +25,84 @@
         height: 100vh;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    #characterSelectionPage.hidden {
+        display: none;
+    }
+
+    .selection-content {
+        text-align: center;
+        color: white;
+    }
+
+    .selection-content h1 {
+        font-size: 64px;
+        margin-bottom: 20px;
+        text-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+    }
+
+    .selection-content h2 {
+        font-size: 32px;
+        margin-bottom: 50px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .color-buttons {
+        display: flex;
+        gap: 30px;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .color-button {
+        width: 200px;
+        height: 200px;
+        border-radius: 20px;
+        border: 5px solid white;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .color-button.pink {
+        background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+    }
+
+    .color-button.blue {
+        background: linear-gradient(135deg, #4169e1 0%, #0066ff 100%);
+    }
+
+    .color-button:hover, .color-button.selected {
+        transform: scale(1.15);
+        box-shadow: 0 15px 50px rgba(255, 215, 0, 0.8);
+        border: 5px solid #ffd700;
+    }
+
+    .color-preview {
+        font-size: 80px;
+        margin-bottom: 10px;
+    }
+
+    #menuPage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: none;
         justify-content: center;
         align-items: center;
         z-index: 999;
@@ -236,24 +314,6 @@
         box-shadow: 0 10px 50px rgba(0,0,0,0.5);
     }
 
-    #store::-webkit-scrollbar {
-        width: 12px;
-    }
-
-    #store::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 10px;
-    }
-
-    #store::-webkit-scrollbar-thumb {
-        background: #667eea;
-        border-radius: 10px;
-    }
-
-    #store::-webkit-scrollbar-thumb:hover {
-        background: #5568d3;
-    }
-
     #store h2 {
         margin-bottom: 20px;
         color: #2c3e50;
@@ -294,49 +354,11 @@
         font-weight: bold;
         transition: all 0.3s ease;
         text-align: left;
-        position: relative;
     }
 
     #store button:hover {
         background: #2980b9;
         transform: scale(1.02);
-    }
-
-    #store button.selected {
-        background: #2980b9;
-        transform: scale(1.05);
-        border: 3px solid #ffd700;
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-        animation: pulse 1.5s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-        0%, 100% {
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-        }
-        50% {
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.9);
-        }
-    }
-
-    #store button.selected::before {
-        content: '▶';
-        position: absolute;
-        left: -25px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 20px;
-        color: #ffd700;
-        animation: bounce-arrow 0.6s ease-in-out infinite;
-    }
-
-    @keyframes bounce-arrow {
-        0%, 100% {
-            left: -25px;
-        }
-        50% {
-            left: -20px;
-        }
     }
 
     #store .close {
@@ -349,24 +371,12 @@
         background: #c0392b;
     }
 
-    #store .close.selected {
-        background: #c0392b;
-        border: 3px solid #ffd700;
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-    }
-
     .purchased {
         background: #27ae60 !important;
     }
 
     .purchased:hover {
         background: #229954 !important;
-    }
-
-    .purchased.selected {
-        background: #229954 !important;
-        border: 3px solid #ffd700;
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
     }
 
     #characterButtons {
@@ -408,15 +418,33 @@
     </style>
 </head>
 <body>
+    <div id="characterSelectionPage">
+        <div class="selection-content">
+            <h1>🦋 Catching Butterflies</h1>
+            <h2>Choose Your Character Color</h2>
+            <div class="color-buttons">
+                <div class="color-button pink selected" id="pinkButton">
+                    <div class="color-preview">💖</div>
+                    <div>Pink</div>
+                </div>
+                <div class="color-button blue" id="blueButton">
+                    <div class="color-preview">💙</div>
+                    <div>Blue</div>
+                </div>
+            </div>
+            <p style="font-size: 16px; color: rgba(255,255,255,0.8);">
+                Click to select | Press ENTER to confirm
+            </p>
+        </div>
+    </div>
+
     <div id="menuPage">
         <div class="menu-content">
             <h1>🦋 Catching Butterflies</h1>
             <button class="menu-button selected" id="startButton">Start Game</button>
             <p style="margin-top: 30px; font-size: 16px; color: rgba(255,255,255,0.8);">
-                ⌨️ Keyboard Controls:<br>
-                Press ENTER to Start | Arrow Keys = Navigate<br>
                 WASD = Move | Arrow Keys = Camera<br>
-                E = Store | ESC = Pause | SPACE = Catch
+                SPACE = Catch | E = Store
             </p>
         </div>
     </div>
@@ -439,10 +467,10 @@
             <div id="crickets">🦗 Crickets: 0/20</div>
         </div>
         
-        <div style="margin-top: 10px; font-size: 14px;">⌨️ WASD = Move | SPACE = Catch | E = Store</div>
+        <div style="margin-top: 10px; font-size: 14px;">WASD = Move | SPACE = Catch | E = Store</div>
     </div>
 
-    <div id="controllerStatus">⌨️ Keyboard Ready</div>
+    <div id="controllerStatus">⌨️ Keyboard & Mouse Ready</div>
 
     <div id="objective">
         <h3>📋 Objective</h3>
@@ -461,7 +489,7 @@
         <p id="storeStatus">Money: $0</p>
         
         <div id="netsContainer">
-            <h3>Nets</h3>
+            <h3>Wastebaskets 🗑️</h3>
             <div id="netButtons"></div>
         </div>
 
@@ -473,13 +501,8 @@
 
     <div id="completionScreen">
         <h1>🎉 Congratulations! 🎉</h1>
-        <p>Thank you for playing my first game demo.</p>
-        <p>I hope you enjoyed playing this game.</p>
-        <p>Thank you!</p>
+        <p>Thank you for playing!</p>
         <button id="playAgainButton" class="selected">Play Again</button>
-        <p style="margin-top: 20px; font-size: 18px; color: rgba(255,255,255,0.8);">
-            ⌨️ Press ENTER to Play Again
-        </p>
     </div>
 
     <script type="importmap">
@@ -492,8 +515,6 @@
 
     <script type="module">
         import * as THREE from 'three';
-
-        console.log("Game script loading...");
 
         const butterflyTypes = [
             { name: "Monarch", emoji: "🦋", color: 0xff8c00, speed: 2.5, value: 6, scale: 3.0 },
@@ -519,10 +540,17 @@
         ];
 
         const netTiers = [
-            { name: "Basic Net", price: 12, durability: 10, range: 8 },
-            { name: "Advanced Net", price: 24, durability: 5, range: 10 },
-            { name: "Rare Net", price: 36, durability: Infinity, range: 12 }
+            { name: "Basic Wastebasket", price: 12, range: 8 },
+            { name: "Advanced Wastebasket", price: 24, range: 10 },
+            { name: "Rare Wastebasket", price: 36, range: 12 }
         ];
+
+        let selectedCharacterColor = 'pink';
+        let keys = {};
+        let scene, camera, renderer, player, netGroup;
+        let butterflies = [], spiders = [], undergroundCreatures = [];
+        let clock, ambientLight, directionalLight, ground;
+        let cameraAngle = 0;
 
         let gameState = {
             level: 1,
@@ -538,341 +566,106 @@
             storeUnlocked: false
         };
 
-        let menuState = {
-            currentMenu: 'main',
-            selectedIndex: 0,
-            menuButtons: []
-        };
-
-        let gamepad = null;
-        let previousButtonStates = {};
-        let previousDPadState = { up: false, down: false, left: false, right: false };
-        
-        let keys = {};
-        let previousKeys = {};
-        let lastScrollTime = 0;
-        
-        let scene, camera, renderer, player, netGroup;
-        let butterflies = [], spiders = [], undergroundCreatures = [];
-        let clock, ambientLight, directionalLight, ground;
-        let cameraAngle = 0;
-
         window.addEventListener('keydown', (e) => {
             keys[e.key.toLowerCase()] = true;
-            keys[e.code] = true;
+            
+            // Color selection screen
+            if (!gameState.isPlaying && document.getElementById('characterSelectionPage').style.display !== 'none') {
+                if (e.key === 'ArrowLeft') {
+                    selectPink();
+                } else if (e.key === 'ArrowRight') {
+                    selectBlue();
+                } else if (e.key === 'Enter') {
+                    confirmColor();
+                }
+            }
+            
+            // Main menu
+            if (document.getElementById('menuPage').style.display === 'flex') {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    document.getElementById('startButton').click();
+                }
+            }
+            
+            // In-game store toggle
+            if (gameState.isPlaying && e.key.toLowerCase() === 'e' && gameState.storeUnlocked) {
+                toggleStore();
+            }
+            
+            // In-game catch
+            if (gameState.isPlaying && e.key === ' ' && document.getElementById('store').style.display !== 'block') {
+                tryCatch();
+            }
         });
 
         window.addEventListener('keyup', (e) => {
             keys[e.key.toLowerCase()] = false;
-            keys[e.code] = false;
         });
 
-        function isKeyPressed(key) {
-            const pressed = keys[key] || keys[key.toLowerCase()];
-            const wasPressed = previousKeys[key] || previousKeys[key.toLowerCase()];
-            return pressed && !wasPressed;
+        function selectPink() {
+            selectedCharacterColor = 'pink';
+            document.getElementById('pinkButton').classList.add('selected');
+            document.getElementById('blueButton').classList.remove('selected');
         }
 
-        function updatePreviousKeys() {
-            previousKeys = {...keys};
+        function selectBlue() {
+            selectedCharacterColor = 'blue';
+            document.getElementById('blueButton').classList.add('selected');
+            document.getElementById('pinkButton').classList.remove('selected');
         }
 
-        window.addEventListener("gamepadconnected", (e) => {
-            console.log("Controller connected:", e.gamepad.id);
-            gamepad = e.gamepad;
-            document.getElementById('controllerStatus').textContent = '🎮 Controller: Connected';
-            document.getElementById('controllerStatus').style.background = 'rgba(0,128,0,0.6)';
-        });
-
-        window.addEventListener("gamepaddisconnected", (e) => {
-            console.log("Controller disconnected");
-            gamepad = null;
-            document.getElementById('controllerStatus').textContent = '⌨️ Keyboard Ready';
-            document.getElementById('controllerStatus').style.background = 'rgba(0,0,0,0.6)';
-        });
-
-        function getGamepad() {
-            const gamepads = navigator.getGamepads();
-            for (let i = 0; i < gamepads.length; i++) {
-                if (gamepads[i]) return gamepads[i];
-            }
-            return null;
+        function confirmColor() {
+            document.getElementById('characterSelectionPage').classList.add('hidden');
+            document.getElementById('menuPage').style.display = 'flex';
         }
 
-        function isButtonPressed(buttonIndex) {
-            const gp = getGamepad();
-            if (!gp) return false;
-            
-            const pressed = gp.buttons[buttonIndex] && gp.buttons[buttonIndex].pressed;
-            const wasPressed = previousButtonStates[buttonIndex];
-            previousButtonStates[buttonIndex] = pressed;
-            
-            return pressed && !wasPressed;
-        }
+        document.getElementById('pinkButton').onclick = function() {
+            selectPink();
+        };
 
-        function updateMenuButtons() {
-            menuState.menuButtons.forEach(btn => btn.classList.remove('selected'));
+        document.getElementById('pinkButton').ondblclick = function() {
+            selectPink();
+            confirmColor();
+        };
 
-            if (menuState.currentMenu === 'main') {
-                menuState.menuButtons = [document.getElementById('startButton')];
-            } else if (menuState.currentMenu === 'completion') {
-                menuState.menuButtons = [document.getElementById('playAgainButton')];
-            } else if (menuState.currentMenu === 'store') {
-                const buttons = [];
-                if (gameState.level !== 3) {
-                    document.querySelectorAll('#netButtons button').forEach(btn => buttons.push(btn));
-                }
-                document.querySelectorAll('#characterButtons button').forEach(btn => buttons.push(btn));
-                buttons.push(document.getElementById('storeClose'));
-                menuState.menuButtons = buttons;
-            }
+        document.getElementById('blueButton').onclick = function() {
+            selectBlue();
+        };
 
-            menuState.selectedIndex = Math.max(0, Math.min(menuState.selectedIndex, menuState.menuButtons.length - 1));
+        document.getElementById('blueButton').ondblclick = function() {
+            selectBlue();
+            confirmColor();
+        };
 
-            if (menuState.menuButtons[menuState.selectedIndex]) {
-                menuState.menuButtons[menuState.selectedIndex].classList.add('selected');
-            }
-        }
+        document.getElementById('startButton').onclick = function() {
+            startGame();
+        };
 
-        function getDPadInput() {
-            const gp = getGamepad();
-            if (!gp) return { up: false, down: false };
+        document.getElementById('storeClose').onclick = function() {
+            toggleStore();
+        };
 
-            let upPressed = gp.buttons[12] && gp.buttons[12].pressed;
-            let downPressed = gp.buttons[13] && gp.buttons[13].pressed;
-            
-            const upJustPressed = upPressed && !previousDPadState.up;
-            const downJustPressed = downPressed && !previousDPadState.down;
-            
-            previousDPadState.up = upPressed;
-            previousDPadState.down = downPressed;
-
-            return { 
-                up: upJustPressed, 
-                down: downJustPressed 
-            };
-        }
-
-        function handleMenuNavigation() {
-            if (menuState.currentMenu === 'main' || menuState.currentMenu === 'completion') {
-                if (isKeyPressed('Enter') || isKeyPressed(' ')) {
-                    const selectedButton = menuState.menuButtons[menuState.selectedIndex];
-                    if (selectedButton) {
-                        console.log("Enter/Space pressed - clicking button");
-                        selectedButton.click();
-                    }
-                }
-                
-                if (isButtonPressed(1) || isButtonPressed(0)) {
-                    const selectedButton = menuState.menuButtons[menuState.selectedIndex];
-                    if (selectedButton) {
-                        console.log("Controller A button pressed - clicking button");
-                        selectedButton.click();
-                    }
-                }
-            } else if (menuState.currentMenu === 'store') {
-                const dpad = getDPadInput();
-                
-                if (isKeyPressed('ArrowUp') || isKeyPressed('w')) {
-                    menuState.selectedIndex--;
-                    if (menuState.selectedIndex < 0) {
-                        menuState.selectedIndex = menuState.menuButtons.length - 1;
-                    }
-                    updateMenuButtons();
-                    scrollToSelected();
-                }
-
-                if (isKeyPressed('ArrowDown') || isKeyPressed('s')) {
-                    menuState.selectedIndex++;
-                    if (menuState.selectedIndex >= menuState.menuButtons.length) {
-                        menuState.selectedIndex = 0;
-                    }
-                    updateMenuButtons();
-                    scrollToSelected();
-                }
-                
-                if (dpad.up) {
-                    menuState.selectedIndex--;
-                    if (menuState.selectedIndex < 0) {
-                        menuState.selectedIndex = menuState.menuButtons.length - 1;
-                    }
-                    updateMenuButtons();
-                    scrollToSelected();
-                }
-
-                if (dpad.down) {
-                    menuState.selectedIndex++;
-                    if (menuState.selectedIndex >= menuState.menuButtons.length) {
-                        menuState.selectedIndex = 0;
-                    }
-                    updateMenuButtons();
-                    scrollToSelected();
-                }
-
-                if (isKeyPressed('Enter') || isKeyPressed(' ')) {
-                    const selectedButton = menuState.menuButtons[menuState.selectedIndex];
-                    if (selectedButton) {
-                        selectedButton.click();
-                    }
-                }
-
-                if (isKeyPressed('Escape') || isKeyPressed('e')) {
-                    toggleStore();
-                }
-
-                if (isButtonPressed(1)) {
-                    const selectedButton = menuState.menuButtons[menuState.selectedIndex];
-                    if (selectedButton) {
-                        selectedButton.click();
-                    }
-                }
-
-                if (isButtonPressed(0)) {
-                    toggleStore();
-                }
-            }
-        }
-
-        function scrollToSelected() {
-            const now = Date.now();
-            if (now - lastScrollTime < 100) return;
-            lastScrollTime = now;
-            
-            if (menuState.menuButtons[menuState.selectedIndex]) {
-                const selectedButton = menuState.menuButtons[menuState.selectedIndex];
-                
-                selectedButton.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'center',
-                    inline: 'nearest'
-                });
-                
-                selectedButton.style.transition = 'all 0.3s ease';
-            }
-        }
-
-        function setupButtons() {
-            console.log("Setting up buttons...");
-            
-            const startBtn = document.getElementById('startButton');
-            if (startBtn) {
-                startBtn.onclick = function() {
-                    console.log("Start button clicked!");
-                    startGame();
-                };
-                console.log("Start button handler attached");
-            } else {
-                console.error("Start button not found!");
-            }
-
-            const storeCloseBtn = document.getElementById('storeClose');
-            if (storeCloseBtn) {
-                storeCloseBtn.onclick = function() {
-                    console.log("Store close clicked!");
-                    toggleStore();
-                };
-            }
-
-            const playAgainBtn = document.getElementById('playAgainButton');
-            if (playAgainBtn) {
-                playAgainBtn.onclick = function() {
-                    console.log("Play again clicked!");
-                    returnToMainMenu();
-                };
-            }
-        }
+        document.getElementById('playAgainButton').onclick = function() {
+            location.reload();
+        };
 
         function startGame() {
-            console.log("Starting game...");
             document.getElementById('menuPage').style.display = 'none';
             document.getElementById('gameCanvas').style.display = 'block';
-            menuState.currentMenu = 'game';
             gameState.isPlaying = true;
             initGame();
         }
 
-        function returnToMainMenu() {
-            console.log("Returning to main menu...");
-            
-            document.getElementById('completionScreen').classList.remove('show');
-            document.getElementById('completionScreen').style.display = 'none';
-            document.getElementById('gameCanvas').style.display = 'none';
-            document.getElementById('menuPage').style.display = 'flex';
-            
-            gameState = {
-                level: 1,
-                money: 0,
-                butterfliesCaught: 0,
-                spidersCaught: 0,
-                undergroundCaught: { ants: 0, worms: 0, snails: 0, bugs: 0, crickets: 0 },
-                currentNet: null,
-                catchRange: 4,
-                currentCharacterIndex: 0,
-                isPaused: false,
-                isPlaying: false,
-                storeUnlocked: false
-            };
-            
-            characterTypes.forEach((char, i) => {
-                if (i === 0) char.purchased = true;
-                else char.purchased = false;
-            });
-            
-            if (scene) {
-                butterflies.forEach(b => b.remove());
-                butterflies = [];
-                spiders.forEach(s => s.remove());
-                spiders = [];
-                undergroundCreatures.forEach(c => c.remove());
-                undergroundCreatures = [];
-                
-                if (renderer && renderer.domElement && renderer.domElement.parentElement) {
-                    renderer.domElement.parentElement.removeChild(renderer.domElement);
-                }
-                
-                scene = null;
-                renderer = null;
-            }
-            
-            document.getElementById('caught').style.display = 'block';
-            document.getElementById('caught').textContent = 'Butterflies: 0/101';
-            document.getElementById('spiders').style.display = 'none';
-            document.getElementById('spiders').textContent = 'Spiders: 0/50';
-            document.getElementById('undergroundStats').style.display = 'none';
-            document.getElementById('ants').textContent = '🐜 Ants: 0/20';
-            document.getElementById('worms').textContent = '🪱 Worms: 0/20';
-            document.getElementById('snails').textContent = '🐌 Snails: 0/20';
-            document.getElementById('bugs').textContent = '🐛 Bugs: 0/20';
-            document.getElementById('crickets').textContent = '🦗 Crickets: 0/20';
-            
-            menuState.currentMenu = 'main';
-            menuState.selectedIndex = 0;
-            updateMenuButtons();
-        }
-
         function toggleStore() {
             const store = document.getElementById('store');
-            const netsContainer = document.getElementById('netsContainer');
-            
-            if (gameState.level === 3) {
-                netsContainer.classList.add('hidden');
-            } else {
-                netsContainer.classList.remove('hidden');
-            }
-            
             if (store.style.display === 'block') {
                 store.style.display = 'none';
-                menuState.currentMenu = 'game';
             } else {
                 store.style.display = 'block';
-                menuState.currentMenu = 'store';
-                menuState.selectedIndex = 0;
-                updateMenuButtons();
             }
         }
 
         function initGame() {
-            console.log("Initializing game...");
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0x87CEEB);
 
@@ -898,8 +691,9 @@
             scene.add(ground);
 
             player = new THREE.Group();
+            const playerColor = selectedCharacterColor === 'pink' ? 0xff69b4 : 0x0066ff;
             const playerGeometry = new THREE.CapsuleGeometry(0.5, 1.5, 4, 8);
-            const playerMaterial = new THREE.MeshLambertMaterial({ color: 0x0066ff });
+            const playerMaterial = new THREE.MeshLambertMaterial({ color: playerColor });
             const playerMesh = new THREE.Mesh(playerGeometry, playerMaterial);
             playerMesh.castShadow = true;
             player.add(playerMesh);
@@ -916,31 +710,35 @@
             clock = new THREE.Clock();
             updateUI();
             updateObjective();
-            console.log("Game initialized successfully!");
+            animate();
         }
 
         function createNet() {
             netGroup = new THREE.Group();
-            const hoopGeometry = new THREE.TorusGeometry(0.8, 0.08, 16, 32);
-            const hoopMaterial = new THREE.MeshLambertMaterial({ color: 0x888888 });
-            const hoop = new THREE.Mesh(hoopGeometry, hoopMaterial);
-            hoop.rotation.x = Math.PI / 2;
-            netGroup.add(hoop);
+            const wastebaskets = [
+                { emoji: '🗑️', color: 0xC0C0C0, scale: 2.5 },
+                { emoji: '🗑️', color: 0x4169E1, scale: 2.8 },
+                { emoji: '🗑️', color: 0xFFD700, scale: 3.2 }
+            ];
             
-            const netShape = new THREE.ConeGeometry(0.8, 2.5, 8, 4, true);
-            const netMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, wireframe: true });
-            const netMesh = new THREE.Mesh(netShape, netMaterial);
-            netMesh.position.y = -1.25;
-            netGroup.add(netMesh);
+            netGroup.wastebasketSprites = [];
             
-            const handleGeometry = new THREE.CylinderGeometry(0.05, 0.05, 2.5, 8);
-            const handleMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
-            const handle = new THREE.Mesh(handleGeometry, handleMaterial);
-            handle.position.y = -2.5;
-            netGroup.add(handle);
+            wastebaskets.forEach((basket) => {
+                const wastebasketTexture = createEmojiTexture(basket.emoji);
+                const wastebasketMaterial = new THREE.SpriteMaterial({ 
+                    map: wastebasketTexture,
+                    transparent: true,
+                    color: basket.color
+                });
+                const wastebasketSprite = new THREE.Sprite(wastebasketMaterial);
+                wastebasketSprite.scale.set(basket.scale, basket.scale, 1);
+                wastebasketSprite.position.set(0, 0, 0);
+                wastebasketSprite.visible = false;
+                netGroup.add(wastebasketSprite);
+                netGroup.wastebasketSprites.push(wastebasketSprite);
+            });
             
-            netGroup.position.set(0.7, 0.5, -2);
-            netGroup.rotation.x = Math.PI / 6;
+            netGroup.position.set(1.5, 0.5, -1.5);
             netGroup.visible = false;
             player.add(netGroup);
         }
@@ -956,7 +754,6 @@
 
         function createTree(x, z) {
             const treeGroup = new THREE.Group();
-            
             const trunkGeometry = new THREE.CylinderGeometry(0.3, 0.4, 5, 8);
             const trunkMaterial = new THREE.MeshLambertMaterial({ color: 0x4a2511 });
             const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
@@ -977,7 +774,6 @@
 
         function createFlower(x, z) {
             const flowerGroup = new THREE.Group();
-            
             const stemGeometry = new THREE.CylinderGeometry(0.05, 0.05, 0.8, 8);
             const stemMaterial = new THREE.MeshLambertMaterial({ color: 0x228b22 });
             const stem = new THREE.Mesh(stemGeometry, stemMaterial);
@@ -1003,18 +799,25 @@
         function setupStore() {
             const netContainer = document.getElementById('netButtons');
             netContainer.innerHTML = '';
+            const colors = ['🩶 Silver', '🩵 Blue', '💛 Gold'];
+            
             netTiers.forEach((net, i) => {
                 const btn = document.createElement('button');
-                btn.innerHTML = `<strong>${net.name} - $${net.price}</strong><br>Range: ${net.range}`;
+                btn.innerHTML = `<strong>${colors[i]} ${net.name} - $${net.price}</strong><br>Range: ${net.range}`;
                 btn.onclick = () => {
                     if (gameState.level === 3) {
-                        showNotification("Nets not needed underground!", true);
+                        showNotification("Wastebaskets not needed underground!", true);
                         return;
                     }
                     if (gameState.money >= net.price) {
                         gameState.money -= net.price;
                         gameState.currentNet = i;
                         netGroup.visible = true;
+                        if (netGroup.wastebasketSprites) {
+                            netGroup.wastebasketSprites.forEach((sprite, index) => {
+                                sprite.visible = (index === i);
+                            });
+                        }
                         showNotification(`${net.name} bought!`);
                         updateUI();
                     } else {
@@ -1087,8 +890,9 @@
                 playerSprite.position.y = 0;
                 player.add(playerSprite);
             } else {
+                const playerColor = selectedCharacterColor === 'pink' ? 0xff69b4 : 0x0066ff;
                 const playerGeometry = new THREE.CapsuleGeometry(0.5, 1.5, 4, 8);
-                const playerMaterial = new THREE.MeshLambertMaterial({ color: 0x0066ff });
+                const playerMaterial = new THREE.MeshLambertMaterial({ color: playerColor });
                 const playerMesh = new THREE.Mesh(playerGeometry, playerMaterial);
                 playerMesh.castShadow = true;
                 player.add(playerMesh);
@@ -1316,10 +1120,9 @@
             if (done) {
                 setTimeout(() => {
                     gameState.isPaused = true;
-                    document.getElementById('completionScreen').classList.add('show');
-                    menuState.currentMenu = 'completion';
-                    menuState.selectedIndex = 0;
-                    updateMenuButtons();
+                    const completionScreen = document.getElementById('completionScreen');
+                    completionScreen.style.display = 'flex';
+                    completionScreen.classList.add('show');
                 }, 1000);
             }
             
@@ -1425,29 +1228,21 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            if (menuState.currentMenu === 'main' || menuState.currentMenu === 'store' || menuState.currentMenu === 'completion') {
-                handleMenuNavigation();
-                if (renderer && scene && camera) renderer.render(scene, camera);
-                updatePreviousKeys();
-                return;
-            }
-
             if (!gameState.isPlaying || gameState.isPaused) {
-                if (renderer) renderer.render(scene, camera);
-                updatePreviousKeys();
+                if (renderer && scene && camera) renderer.render(scene, camera);
                 return;
             }
 
             const dt = clock.getDelta();
-            const gp = getGamepad();
 
+            // Movement
             let moveX = 0;
             let moveZ = 0;
             
-            if (keys['w'] || keys['W']) moveZ -= 1;
-            if (keys['s'] || keys['S']) moveZ += 1;
-            if (keys['a'] || keys['A']) moveX -= 1;
-            if (keys['d'] || keys['D']) moveX += 1;
+            if (keys['w']) moveZ -= 1;
+            if (keys['s']) moveZ += 1;
+            if (keys['a']) moveX -= 1;
+            if (keys['d']) moveX += 1;
 
             if (moveX !== 0 || moveZ !== 0) {
                 const move = new THREE.Vector3(moveX, 0, moveZ);
@@ -1458,49 +1253,9 @@
                 player.position.z = Math.max(-60, Math.min(60, player.position.z));
             }
 
-            if (gp) {
-                const leftX = Math.abs(gp.axes[0]) > 0.15 ? gp.axes[0] : 0;
-                const leftY = Math.abs(gp.axes[1]) > 0.15 ? gp.axes[1] : 0;
-
-                if (leftX !== 0 || leftY !== 0) {
-                    const move = new THREE.Vector3(leftX, 0, leftY);
-                    move.normalize();
-                    move.applyAxisAngle(new THREE.Vector3(0, 1, 0), cameraAngle);
-                    player.position.add(move.multiplyScalar(8 * dt));
-                    player.position.x = Math.max(-60, Math.min(60, player.position.x));
-                    player.position.z = Math.max(-60, Math.min(60, player.position.z));
-                }
-            }
-
-            if (keys['ArrowLeft']) {
-                cameraAngle += 2 * dt;
-            }
-            if (keys['ArrowRight']) {
-                cameraAngle -= 2 * dt;
-            }
-
-            if (gp) {
-                const rightX = Math.abs(gp.axes[2]) > 0.15 ? gp.axes[2] : 0;
-                if (rightX !== 0) {
-                    cameraAngle += rightX * dt * 2;
-                }
-            }
-
-            if (isKeyPressed(' ')) {
-                tryCatch();
-            }
-
-            if (isKeyPressed('e') && gameState.storeUnlocked) {
-                toggleStore();
-            }
-
-            if (isButtonPressed(1)) {
-                tryCatch();
-            }
-
-            if (isButtonPressed(9) && gameState.storeUnlocked) {
-                toggleStore();
-            }
+            // Camera rotation
+            if (keys['arrowleft']) cameraAngle += 2 * dt;
+            if (keys['arrowright']) cameraAngle -= 2 * dt;
 
             camera.position.set(
                 player.position.x + Math.sin(cameraAngle) * 12,
@@ -1514,20 +1269,7 @@
             undergroundCreatures.forEach(c => c.update(dt));
 
             renderer.render(scene, camera);
-            updatePreviousKeys();
         }
-
-        console.log("Calling setupButtons...");
-        setupButtons();
-        
-        console.log("Setting up menu state...");
-        menuState.currentMenu = 'main';
-        updateMenuButtons();
-        
-        console.log("Starting animation loop...");
-        animate();
-        
-        console.log("Game ready! Main menu is now active.");
     </script>
 </body>
 </html>
